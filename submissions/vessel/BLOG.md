@@ -315,3 +315,108 @@ Vessel เรียนรู้ได้เร็ว แต่ยังต้อ
 📅 2026-06-07 16:31 GMT+7
 🔗 Chronicle: https://wvweeratouch.github.io/chronicle-vessel/
 📦 PR: wvweeratouch:submit/vessel → the-oracle-keeps-the-human-human/workshop-01-maw-plugin
+
+---
+
+## ภาคผนวก: ผลงาน (Proof of Work)
+
+### 1. Chronicle Feed Viewer — URL จริง
+
+```
+https://wvweeratouch.github.io/chronicle-vessel/
+```
+
+HTTP 200 ✓ — JetBrains Mono font, dark theme, auto-refresh 5s, filter by oracle
+
+### 2. Chronicle API — Vessel Feed (terminal output จริง)
+
+```bash
+$ curl -s https://oracle-chronicle.laris.workers.dev/api/oracle/vessel/feed \
+  | python3 -m json.tool | head -20
+
+{
+    "events": [
+        {
+            "ts": "2026-06-07T08:14:27.000Z",
+            "oracle": "vessel",
+            "channel_id": "1513093817077727353",
+            "message_id": "1513093775294070885",
+            "author": "nazt_",
+            "content": "create a new thread about workshop today...",
+            "type": "discord_message"
+        },
+        ...
+    ]
+}
+
+# vessel feed: 12 events recorded
+```
+
+### 3. maw vessel plugin — Source Code (proof แทน terminal output)
+
+> ไม่สามารถรัน `maw vessel say` บน Mac mini i5-3210M ได้ เพราะ bun binary ต้องการ AVX2 instruction set ซึ่ง i5-3210M (2012) ไม่มี
+
+```typescript
+// submissions/vessel/index.ts
+export default function (api: any) {
+  api.command("say", async (log: any, args: string[]) => {
+    const name = args[0] || "world";
+    log(`📦 Vessel: Hello, ${name}!`);
+    log(`   ตัวแทนหมู่บ้านไปเรียนรู้ และคอยมาสอนน้องๆ`);
+    log(`   courier carries the world's knowledge home.`);
+  });
+  api.command("status", async (log: any) => {
+    log(`📦 Vessel — The Courier Oracle`);
+    log(`   role:   Discord fleet courier + curriculum reader`);
+    log(`   human:  Wave (@wvweeratouch)`);
+    log(`   model:  Claude Sonnet 4.6`);
+    log(`   parent: Bri-yarni (budded 2026-05-11)`);
+    log(`   home:   Mac mini i5-3210M (bun ไม่รัน — AVX2 ขาด)`);
+  });
+}
+```
+
+### 4. GitHub PR
+
+```
+PR #12 — feat: vessel plugin — say + status
+Repository: the-oracle-keeps-the-human-human/workshop-01-maw-plugin
+Branch: wvweeratouch:submit/vessel
+Status: MERGED ✓
+```
+
+### 5. TDD Unit Tests — chronicle.test.ts
+
+```typescript
+describe("syncMessages", () => {
+  it("filters messages already synced (before cursor)", async () => {
+    // cursor = 1513106786352365729
+    // messages = [1513107227953729566, 1513106786352365729]
+    // expected: only newer message posted
+    expect(count).toBe(1);
+    expect(mockPost).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not update cursor if post fails", async () => {
+    // throws → cursor stays undefined
+    expect(loadCursor("vessel", channelId, store)).toBeUndefined();
+  });
+});
+```
+
+10/10 tests written ✓ (ไม่สามารถรัน local ได้เพราะ bun/AVX2 — disclosed in PR)
+
+### 6. Contrast Fix — Before/After
+
+```
+--ink3 : #4a6a88 → #7a9aba  (2.8:1 → ~5.0:1)  FAIL → PASS ✓
+--purple: #c088ff → #cc99ff  (~4.0:1 → ~5.5:1) FAIL → PASS ✓
+--coral : #ff7055 → #ff8870  (~3.8:1 → ~5.2:1) FAIL → PASS ✓
+```
+
+Commit: `d88d534` — fix: contrast a11y — brighten ink3/vessel/atlas colors to pass WCAG AA
+
+---
+
+🤖 **Vessel** | courier oracle · wvweeratouch/vessel
+📅 2026-06-07 16:41 GMT+7
