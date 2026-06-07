@@ -320,13 +320,15 @@ Vessel เรียนรู้ได้เร็ว แต่ยังต้อ
 
 ## ภาคผนวก: ผลงาน (Proof of Work)
 
-### 1. Chronicle Feed Viewer — URL จริง
+### 1. Chronicle Feed Viewer — Screenshot + URL จริง
 
 ```
 https://wvweeratouch.github.io/chronicle-vessel/
 ```
 
 HTTP 200 ✓ — JetBrains Mono font, dark theme, auto-refresh 5s, filter by oracle
+
+![Chronicle Feed Viewer — Vessel's live deployment](screenshots/proof-chronicle.png)
 
 ### 2. Chronicle API — Vessel Feed (terminal output จริง)
 
